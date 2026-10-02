@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>오울루 크리에이터 기획가이드 생성기</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FFFFFF;
+    --card-bg: #FFFFFF;
+    --cream: #EAF1FD;
+    --sage: #2B2B2B;
+    --sage-dark: #1F5FE0;
+    --terracotta: #1F5FE0;
+    --text-main: #222222;
+    --text-sub: #8A8A8A;
+    --border: #ECECEC;
+    --mono-chip-bg: #F4F4F4;
+    --required: #E5484D;
+    --optional: #E5484D;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text-main);
+    font-family: 'Noto Sans KR', sans-serif;
+    line-height: 1.6;
+    padding: 24px 16px 80px;
+  }
+
+  .wrap { max-width: 1100px; margin: 0 auto; }
+
+  h1 {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 22px;
+    font-weight: 900;
+    text-align: center;
+    margin: 0 0 6px;
+  }
+
+  .sub-desc {
+    text-align: center;
+    font-size: 13px;
+    color: var(--text-sub);
+    margin: 0 0 28px;
+  }
+
+  .top-fields {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 18px 20px;
+    margin-bottom: 22px;
+    box-shadow: 0 2px 14px rgba(0, 0, 0, 0.05);
+  }
+
+  .top-fields label {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--sage-dark);
+    margin-bottom: 6px;
+  }
+
+  .top-fields input[type=text] {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: inherit;
+    margin-bottom: 14px;
+    background: var(--bg);
+    color: var(--text-main);
+  }
+
+  .reference-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+
+  .reference-row input[type=text] {
+    flex: 1;
+    margin-bottom: 0;
+  }
+
+  .reference-row select {
+    flex-shrink: 0;
+    padding: 8px 6px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 12px;
+    font-family: inherit;
+    background: var(--bg);
+    color: var(--text-main);
+  }
+
+  .reference-row .remove-scene-btn { flex-shrink: 0; }
+
+  .ref-group { margin-bottom: 4px; }
+
+  .ref-group-label {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--sage-dark);
+    letter-spacing: 0.03em;
+    margin: 0 0 8px;
+  }
+
+  .ref-links {
+    display: flex;
+    gap: 8px;
+    margin: 0 0 18px;
+  }
+
+  .ref-pill {
+    flex: 1;
+    text-align: center;
+    padding: 14px 0;
+    border-radius: 14px;
+    background: var(--sage);
+    color: #fff;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    box-shadow: 0 2px 10px rgba(31, 95, 224, 0.25);
+  }
+
+  .layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  @media (min-width: 1000px) {
+    .layout { grid-template-columns: 1fr 1fr; align-items: start; }
+  }
+
+  .panel-title {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--sage-dark);
+    letter-spacing: 0.03em;
+    margin: 0 0 12px;
+  }
+
+  .appeal-point-box {
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 18px 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 14px rgba(0, 0, 0, 0.04);
+  }
+
+  .appeal-point-box label {
+    display: block;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--sage-dark);
+    margin-bottom: 8px;
+    letter-spacing: 0.02em;
+  }
+
+  .appeal-point-box textarea {
+    width: 100%;
+    min-height: 54px;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 500;
+    font-family: inherit;
+    color: var(--text-main);
+    background: #fff;
+    resize: vertical;
+  }
+
+  .appeal-point-preview {
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 18px 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 14px rgba(0, 0, 0, 0.04);
+  }
+
+  .appeal-point-preview .appeal-label {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--sage-dark);
+    margin: 0 0 6px;
+    letter-spacing: 0.02em;
+  }
+
+  .appeal-point-preview .appeal-text {
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--text-main);
+    margin: 0;
+  }
+
+  .appeal-point-box.danger,
+  .appeal-point-preview.danger {
+    background: #FDECEC;
+    border-color: #F3C9C9;
+  }
+
+  .appeal-point-box.danger label,
+  .appeal-point-preview.danger .appeal-label {
+    color: var(--required);
+  }
+
+  .appeal-point-box.danger textarea {
+    border-color: #F0B8B8;
+  }
+
+  /* --- editor card --- */
+  .editor-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 18px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 14px rgba(0, 0, 0, 0.04);
+  }
+
+  .editor-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .editor-head .scene-tag {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--sage-dark);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  select.req-select {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 5px 10px;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+  }
+
+  select.req-select.required { background: var(--required); color: #fff; }
+  select.req-select.optional { background: var(--optional); color: #fff; }
+
+  .editor-field { margin-bottom: 10px; }
+
+  .editor-field label {
+    display: block;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--sage-dark);
+    letter-spacing: 0.02em;
+    margin-bottom: 4px;
+  }
+
+  .editor-field input[type=text], .editor-field textarea, .editor-field select {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 13px;
+    font-family: inherit;
+    background: var(--bg);
+    color: var(--text-main);
+    resize: vertical;
+  }
+
+  .time-select-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .time-select-row select {
+    flex: 1;
+    padding: 8px 6px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 13px;
+    font-family: 'Noto Sans KR', sans-serif;
+    background: var(--bg);
+    color: var(--text-main);
+  }
+
+  .time-select-sep {
+    color: var(--text-sub);
+    font-size: 13px;
+  }
+
+  .editor-field textarea { min-height: 56px; }
+
+  .media-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 8px;
+  }
+
+  .media-slot-editor {
+    border: 1px dashed var(--border);
+    border-radius: 10px;
+    padding: 8px;
+    text-align: center;
+  }
+
+  .media-slot-editor input[type=file] {
+    font-size: 11px;
+    width: 100%;
+  }
+
+  .media-slot-editor .slot-label {
+    font-size: 11px;
+    color: var(--text-sub);
+    margin-bottom: 4px;
+  }
+
+  .media-slot-editor .thumb {
+    margin-top: 6px;
+    max-width: 100%;
+    max-height: 90px;
+    border-radius: 6px;
+  }
+
+  .slot-status {
+    font-size: 11px;
+    color: var(--terracotta);
+    font-weight: 700;
+    margin-top: 4px;
+    min-height: 14px;
+  }
+
+  .remove-scene-btn {
+    background: none;
+    border: none;
+    color: var(--terracotta);
+    font-size: 12px;
+    cursor: pointer;
+    text-decoration: underline;
+    padding: 0;
+  }
+
+  .add-scene-btn, .export-btn {
+    display: block;
+    width: 100%;
+    padding: 14px 0;
+    border-radius: 14px;
+    border: none;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 4px;
+  }
+
+  .add-scene-btn {
+    background: var(--sage);
+    color: #fff;
+  }
+
+  .export-btn {
+    background: var(--text-main);
+    color: #fff;
+    margin-top: 20px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+  }
+
+  /* --- preview card (matches final guide style) --- */
+  .preview-scene-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 24px;
+    margin-bottom: 18px;
+    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.05);
+  }
+
+  .preview-scene-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+  }
+
+  .scene-icon-badge {
+    width: 32px;
+    height: 32px;
+    border-radius: 999px;
+    background: var(--cream);
+    color: var(--terracotta);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 14px;
+    font-weight: 900;
+    flex-shrink: 0;
+  }
+
+  .preview-scene-num {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--sage-dark);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .req-badge {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 10px;
+    border-radius: 999px;
+    color: #fff;
+  }
+
+  .req-badge.required { background: var(--required); }
+  .req-badge.optional { background: var(--optional); }
+
+  .preview-field {
+    margin-bottom: 14px;
+    padding-top: 14px;
+    border-top: 1px dashed var(--border);
+  }
+
+  .preview-field:first-of-type { border-top: none; padding-top: 0; }
+
+  .preview-field-label {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--sage-dark);
+    letter-spacing: 0.03em;
+    margin-bottom: 4px;
+  }
+
+  .preview-field-value {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-main);
+  }
+
+  .preview-field-value.required { color: var(--text-main); font-weight: 500; }
+  .preview-field-value.optional { color: var(--text-main); font-weight: 700; }
+
+  .label-warning { color: var(--required) !important; }
+
+  blockquote.preview-line {
+    margin: 0 0 14px;
+    padding: 10px 14px;
+    background: var(--cream);
+    border-left: 3px solid var(--sage);
+    border-radius: 4px;
+    font-size: 15px;
+    color: var(--text-main);
+  }
+
+  .preview-media-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .preview-media-grid.single-slot {
+    display: flex;
+    justify-content: center;
+  }
+
+  .preview-media-grid.single-slot img,
+  .preview-media-grid.single-slot video,
+  .preview-media-grid.single-slot .preview-media-placeholder {
+    width: 60%;
+    max-width: 260px;
+  }
+
+  .preview-media-grid img, .preview-media-grid video {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    border-radius: 12px;
+    display: block;
+    background: #000;
+  }
+
+  .preview-media-placeholder {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    border: 1px dashed var(--border);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--text-sub);
+    font-size: 12px;
+  }
+
+  .empty-note {
+    text-align: center;
+    color: var(--text-sub);
+    font-size: 13px;
+    padding: 30px 0;
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <h1 id="previewTitleHeading">크리에이터 기획가이드 생성기</h1>
+    <p class="sub-desc">씬을 추가하고 대사/자막과 참고 영상·이미지를 넣으면 오른쪽에 가이드 미리보기가 만들어져요. 완성되면 내보내기로 최종 HTML 파일을 받을 수 있어요.</p>
+
+    <div class="top-fields">
+      <label for="guideTitleInput">가이드 제목</label>
+      <input type="text" id="guideTitleInput" value="[OULU] 버치 아토 판테놀 리페어 세럼 크리에이터 기획 가이드">
+      <label>레퍼런스 (최대 3개)</label>
+      <div id="referenceEditorList"></div>
+      <button class="add-scene-btn" id="addReferenceBtn" type="button">+ 레퍼런스 추가</button>
+    </div>
+
+    <div class="layout">
+      <div>
+        <div class="appeal-point-box">
+          <label for="mainAppealInput">메인 소구포인트</label>
+          <textarea id="mainAppealInput" placeholder="이 콘텐츠의 핵심 소구포인트를 입력하세요"></textarea>
+        </div>
+        <div class="appeal-point-box danger">
+          <label for="mandatoryBanInput">필수 금지 사항</label>
+          <textarea id="mandatoryBanInput" placeholder="반드시 피해야 할 표현/내용을 입력하세요"></textarea>
+        </div>
+        <p class="panel-title">상세 기획내용</p>
+        <div id="editorList"></div>
+        <button class="add-scene-btn" id="addSceneBtn">+ 씬 추가</button>
+        <button class="export-btn" id="exportBtn">가이드 파일 내보내기</button>
+      </div>
+      <div>
+        <p class="panel-title">미리보기</p>
+        <div id="referencePreview"></div>
+        <div id="appealPointPreview"></div>
+        <div id="mandatoryBanPreview"></div>
+        <div id="previewList"></div>
+      </div>
+    </div>
+  </div>
+
+<script>
+let scenes = [];
+let sceneSeq = 0;
+let references = [];
+
+function newScene() {
+  sceneSeq += 1;
+  return {
+    id: sceneSeq,
+    startSec: 0,
+    endSec: 5,
+    line: '',
+    requiredContent: '',
+    optionalContent: '',
+    slotCount: 2,
+    media1: null, // {type:'image'|'video', dataUrl}
+    media2: null
+  };
+}
+
+function formatTimecode(totalSec) {
+  const m = Math.floor(totalSec / 60);
+  const s = totalSec % 60;
+  return String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+}
+
+function timeRangeLabel(scene) {
+  return formatTimecode(scene.startSec) + ' - ' + formatTimecode(scene.endSec);
+}
+
+function timeSelectOptions(selected) {
+  let opts = '';
+  for (let i = 0; i <= 120; i++) {
+    opts += `<option value="${i}" ${i === selected ? 'selected' : ''}>${formatTimecode(i)}</option>`;
+  }
+  return opts;
+}
+
+function addScene() {
+  scenes.push(newScene());
+  render();
+}
+
+function removeScene(id) {
+  scenes = scenes.filter(s => s.id !== id);
+  render();
+}
+
+function compressImageFile(file, maxWidth, quality) {
+  maxWidth = maxWidth || 720;
+  quality = quality || 0.75;
+  return new Promise(function(resolve, reject) {
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    img.onload = function() {
+      const scale = Math.min(1, maxWidth / img.width);
+      const w = Math.max(1, Math.round(img.width * scale));
+      const h = Math.max(1, Math.round(img.height * scale));
+      const canvas = document.createElement('canvas');
+      canvas.width = w; canvas.height = h;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, w, h);
+      URL.revokeObjectURL(url);
+      resolve(canvas.toDataURL('image/jpeg', quality));
+    };
+    img.onerror = function(e) { URL.revokeObjectURL(url); reject(e); };
+    img.src = url;
+  });
+}
+
+function pickVideoMimeType() {
+  if (!window.MediaRecorder) return null;
+  const candidates = ['video/mp4;codecs=avc1', 'video/webm;codecs=vp9', 'video/webm;codecs=vp8', 'video/webm'];
+  for (let i = 0; i < candidates.length; i++) {
+    if (MediaRecorder.isTypeSupported(candidates[i])) return candidates[i];
+  }
+  return null;
+}
+
+function compressVideoFile(file, maxWidth, fps) {
+  maxWidth = maxWidth || 360;
+  fps = fps || 24;
+  return new Promise(function(resolve, reject) {
+    const mimeType = pickVideoMimeType();
+    if (!mimeType) { resolve(null); return; }
+
+    const videoEl = document.createElement('video');
+    videoEl.muted = false;
+    videoEl.playsInline = true;
+    videoEl.preload = 'auto';
+    const url = URL.createObjectURL(file);
+    videoEl.src = url;
+
+    videoEl.onloadedmetadata = function() {
+      const scale = Math.min(1, maxWidth / videoEl.videoWidth);
+      const w = Math.max(2, Math.round(videoEl.videoWidth * scale / 2) * 2);
+      const h = Math.max(2, Math.round(videoEl.videoHeight * scale / 2) * 2);
+      const canvas = document.createElement('canvas');
+      canvas.width = w; canvas.height = h;
+      const ctx = canvas.getContext('2d');
+
+      let combinedStream;
+      try {
+        combinedStream = canvas.captureStream(fps);
+        const srcStream = videoEl.captureStream ? videoEl.captureStream() : (videoEl.mozCaptureStream ? videoEl.mozCaptureStream() : null);
+        if (srcStream) {
+          srcStream.getAudioTracks().forEach(function(t) { combinedStream.addTrack(t); });
+        }
+      } catch (e) {
+        URL.revokeObjectURL(url);
+        resolve(null);
+        return;
+      }
+
+      const chunks = [];
+      let recorder;
+      try {
+        recorder = new MediaRecorder(combinedStream, { mimeType: mimeType, videoBitsPerSecond: 700000 });
+      } catch (e) {
+        URL.revokeObjectURL(url);
+        resolve(null);
+        return;
+      }
+
+      recorder.ondataavailable = function(e) { if (e.data && e.data.size > 0) chunks.push(e.data); };
+      recorder.onstop = function() {
+        URL.revokeObjectURL(url);
+        const blob = new Blob(chunks, { type: mimeType.split(';')[0] });
+        const reader = new FileReader();
+        reader.onload = function() { resolve(reader.result); };
+        reader.onerror = function(e) { reject(e); };
+        reader.readAsDataURL(blob);
+      };
+
+      let drawing = true;
+      function drawFrame() {
+        if (!drawing) return;
+        try { ctx.drawImage(videoEl, 0, 0, w, h); } catch (e) {}
+        requestAnimationFrame(drawFrame);
+      }
+
+      videoEl.onended = function() {
+        drawing = false;
+        if (recorder.state !== 'inactive') recorder.stop();
+      };
+
+      videoEl.play().then(function() {
+        recorder.start();
+        drawFrame();
+      }).catch(function(e) {
+        URL.revokeObjectURL(url);
+        resolve(null);
+      });
+    };
+
+    videoEl.onerror = function(e) { URL.revokeObjectURL(url); resolve(null); };
+  });
+}
+
+function fileToDataUrl(file) {
+  return new Promise(function(resolve, reject) {
+    const reader = new FileReader();
+    reader.onload = function(e) { resolve(e.target.result); };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+function dataUrlToBlob(dataUrl) {
+  const parts = dataUrl.split(',');
+  const mimeMatch = parts[0].match(/data:(.*?);base64/);
+  const mime = mimeMatch ? mimeMatch[1] : 'application/octet-stream';
+  const binary = atob(parts[1]);
+  const bytes = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+  return new Blob([bytes], { type: mime });
+}
+
+// Safety net: if a scene's video somehow ended up stored uncompressed (e.g. the
+// browser didn't support MediaRecorder at upload time), try compressing it again
+// right before export so the downloaded file doesn't balloon in size.
+const RECOMPRESS_THRESHOLD_BYTES = 900 * 1024; // ~900KB as a data URL
+
+async function recompressVideoIfNeeded(media) {
+  if (!media || media.type !== 'video') return media;
+  const approxBytes = media.dataUrl.length * 3 / 4;
+  if (approxBytes <= RECOMPRESS_THRESHOLD_BYTES) return media;
+  try {
+    const blob = dataUrlToBlob(media.dataUrl);
+    const compressed = await compressVideoFile(blob);
+    if (compressed && compressed.length < media.dataUrl.length) {
+      return { type: 'video', dataUrl: compressed };
+    }
+  } catch (e) {
+    // fall through to original if anything goes wrong
+  }
+  return media;
+}
+
+async function recompressAllScenesForExport() {
+  for (const s of scenes) {
+    s.media1 = await recompressVideoIfNeeded(s.media1);
+    s.media2 = await recompressVideoIfNeeded(s.media2);
+  }
+}
+
+async function handleFile(id, slot, file) {
+  if (!file) return;
+  const isVideo = file.type.startsWith('video/');
+  const statusEl = document.getElementById('status-' + slot + '-' + id);
+  if (statusEl) statusEl.textContent = '압축 중...';
+
+  const scene = scenes.find(function(s) { return s.id === id; });
+  if (!scene) return;
+
+  try {
+    if (isVideo) {
+      let dataUrl = await compressVideoFile(file);
+      if (!dataUrl) dataUrl = await fileToDataUrl(file); // fallback: browser can't re-encode, embed as-is
+      scene[slot] = { type: 'video', dataUrl: dataUrl };
+    } else {
+      const dataUrl = await compressImageFile(file);
+      scene[slot] = { type: 'image', dataUrl: dataUrl };
+    }
+  } catch (e) {
+    // last-resort fallback: embed original file untouched
+    const dataUrl = await fileToDataUrl(file);
+    scene[slot] = { type: isVideo ? 'video' : 'image', dataUrl: dataUrl };
+  }
+  render();
+}
+
+function escapeHtml(str) {
+  const div = document.createElement('div');
+  div.innerText = str || '';
+  return div.innerHTML;
+}
+
+function renderEditor() {
+  const list = document.getElementById('editorList');
+  list.innerHTML = scenes.map((s, idx) => `
+    <div class="editor-card">
+      <div class="editor-head">
+        <span class="scene-tag">SCENE ${idx + 1}</span>
+        <button class="remove-scene-btn" onclick="removeScene(${s.id})">삭제</button>
+      </div>
+      <div class="editor-field">
+        <label>타임코드</label>
+        <div class="time-select-row">
+          <select onchange="setNumField(${s.id}, 'startSec', this.value)">${timeSelectOptions(s.startSec)}</select>
+          <span class="time-select-sep">~</span>
+          <select onchange="setNumField(${s.id}, 'endSec', this.value)">${timeSelectOptions(s.endSec)}</select>
+        </div>
+      </div>
+      <div class="editor-field">
+        <label>[더빙 및 자막]</label>
+        <textarea placeholder="대사를 입력하세요" oninput="setField(${s.id}, 'line', this.value)">${escapeHtml(s.line)}</textarea>
+      </div>
+      <div class="editor-field">
+        <label>[화면]</label>
+        <textarea placeholder="화면 내용을 입력하세요" oninput="setField(${s.id}, 'requiredContent', this.value)">${escapeHtml(s.requiredContent)}</textarea>
+      </div>
+      <div class="editor-field">
+        <label class="label-warning">[주의 사항]</label>
+        <textarea placeholder="주의 사항을 입력하세요" oninput="setField(${s.id}, 'optionalContent', this.value)">${escapeHtml(s.optionalContent)}</textarea>
+      </div>
+      <div class="editor-field">
+        <label>참고 자리 개수</label>
+        <select onchange="setSlotCount(${s.id}, this.value)">
+          <option value="1" ${s.slotCount === 1 ? 'selected' : ''}>1개</option>
+          <option value="2" ${s.slotCount === 2 ? 'selected' : ''}>2개</option>
+        </select>
+      </div>
+      <div class="media-row">
+        <div class="media-slot-editor">
+          <div class="slot-label">참고 자리 1</div>
+          <input type="file" accept="image/*,video/*" onchange="handleFile(${s.id}, 'media1', this.files[0])">
+          <div class="slot-status" id="status-media1-${s.id}"></div>
+          ${s.media1 ? (s.media1.type === 'video' ? `<video class="thumb" src="${s.media1.dataUrl}" muted></video>` : `<img class="thumb" src="${s.media1.dataUrl}">`) : ''}
+        </div>
+        ${s.slotCount === 2 ? `<div class="media-slot-editor">
+          <div class="slot-label">참고 자리 2</div>
+          <input type="file" accept="image/*,video/*" onchange="handleFile(${s.id}, 'media2', this.files[0])">
+          <div class="slot-status" id="status-media2-${s.id}"></div>
+          ${s.media2 ? (s.media2.type === 'video' ? `<video class="thumb" src="${s.media2.dataUrl}" muted></video>` : `<img class="thumb" src="${s.media2.dataUrl}">`) : ''}
+        </div>` : ''}
+      </div>
+    </div>
+  `).join('');
+}
+
+function mediaSlotPreviewHtml(media) {
+  if (!media) return `<div class="preview-media-placeholder"><span>참고 영상/이미지<br>삽입 위치</span></div>`;
+  if (media.type === 'video') return `<video controls preload="none" playsinline src="${media.dataUrl}"></video>`;
+  return `<img src="${media.dataUrl}" alt="scene reference">`;
+}
+
+function renderPreview() {
+  const list = document.getElementById('previewList');
+  if (scenes.length === 0) {
+    list.innerHTML = `<div class="empty-note">씬을 추가하면 여기에 미리보기가 표시됩니다.</div>`;
+    return;
+  }
+  list.innerHTML = scenes.map((s, idx) => `
+    <div class="preview-scene-card">
+      <div class="preview-scene-head">
+        <span class="scene-icon-badge">${idx + 1}</span>
+        <span class="preview-scene-num">SCENE ${idx + 1}</span>
+        <span class="time-chip" style="font-family:'Noto Sans KR',sans-serif;font-weight:500;font-size:12px;background:var(--mono-chip-bg);color:var(--text-sub);padding:3px 10px;border-radius:999px;">${timeRangeLabel(s)}</span>
+      </div>
+      <blockquote class="preview-line">${escapeHtml(s.line) || '(대사를 입력해주세요)'}</blockquote>
+      <div class="preview-field">
+        <div class="preview-field-label">[화면]</div>
+        <p class="preview-field-value required">${escapeHtml(s.requiredContent) || '-'}</p>
+      </div>
+      <div class="preview-field">
+        <div class="preview-field-label label-warning">[주의 사항]</div>
+        <p class="preview-field-value optional">${escapeHtml(s.optionalContent) || '-'}</p>
+      </div>
+      <div class="preview-media-grid ${s.slotCount === 1 ? 'single-slot' : ''}">
+        ${mediaSlotPreviewHtml(s.media1)}
+        ${s.slotCount === 2 ? mediaSlotPreviewHtml(s.media2) : ''}
+      </div>
+    </div>
+  `).join('');
+}
+
+function setField(id, field, value) {
+  const scene = scenes.find(s => s.id === id);
+  if (!scene) return;
+  scene[field] = value;
+  renderPreview();
+}
+
+function setNumField(id, field, value) {
+  const scene = scenes.find(s => s.id === id);
+  if (!scene) return;
+  scene[field] = parseInt(value, 10) || 0;
+  renderPreview();
+}
+
+function setSlotCount(id, value) {
+  const scene = scenes.find(s => s.id === id);
+  if (!scene) return;
+  scene.slotCount = parseInt(value, 10) === 1 ? 1 : 2;
+  render();
+}
+
+function render() {
+  renderEditor();
+  renderPreview();
+  renderReferences();
+}
+
+function addReference() {
+  if (references.length >= 3) return;
+  references.push({ url: '', type: 'format' });
+  renderReferences();
+}
+
+function removeReference(idx) {
+  references.splice(idx, 1);
+  renderReferences();
+}
+
+function setReference(idx, value) {
+  references[idx].url = value;
+  renderReferencePreview();
+}
+
+function setReferenceType(idx, value) {
+  references[idx].type = value;
+  renderReferencePreview();
+}
+
+function renderReferenceEditor() {
+  const list = document.getElementById('referenceEditorList');
+  list.innerHTML = references.map((r, idx) => `
+    <div class="reference-row">
+      <select onchange="setReferenceType(${idx}, this.value)">
+        <option value="format" ${r.type === 'format' ? 'selected' : ''}>포맷 참고 레퍼런스</option>
+        <option value="content" ${r.type === 'content' ? 'selected' : ''}>내용 참고 레퍼런스</option>
+      </select>
+      <input type="text" placeholder="https://www.instagram.com/reel/..." value="${escapeHtml(r.url)}" oninput="setReference(${idx}, this.value)">
+      <button class="remove-scene-btn" onclick="removeReference(${idx})">삭제</button>
+    </div>
+  `).join('');
+  document.getElementById('addReferenceBtn').style.display = references.length >= 3 ? 'none' : 'block';
+}
+
+function referenceGroupHtml(list, label) {
+  const valid = list.filter(r => r.url && r.url.trim());
+  if (valid.length === 0) return '';
+  return `<div class="ref-group">
+    <div class="ref-links">
+      ${valid.map((r, i) => `<a class="ref-pill" href="${r.url}" target="_blank" rel="noopener">${valid.length > 1 ? `${label} ${i + 1}` : label}</a>`).join('\n      ')}
+    </div>
+  </div>`;
+}
+
+function renderReferencePreview() {
+  const box = document.getElementById('referencePreview');
+  const formatRefs = references.filter(r => r.type === 'format');
+  const contentRefs = references.filter(r => r.type === 'content');
+  box.innerHTML = referenceGroupHtml(formatRefs, '포맷 참고 레퍼런스') + referenceGroupHtml(contentRefs, '내용 참고 레퍼런스');
+}
+
+function renderReferences() {
+  renderReferenceEditor();
+  renderReferencePreview();
+}
+
+document.getElementById('addSceneBtn').addEventListener('click', addScene);
+document.getElementById('addReferenceBtn').addEventListener('click', addReference);
+
+document.getElementById('guideTitleInput').addEventListener('input', function() {
+  document.getElementById('previewTitleHeading').textContent = this.value || '크리에이터 기획가이드';
+});
+
+function renderAppealPointPreview() {
+  const val = document.getElementById('mainAppealInput').value.trim();
+  const box = document.getElementById('appealPointPreview');
+  if (!val) { box.innerHTML = ''; return; }
+  box.innerHTML = `<div class="appeal-point-preview">
+    <p class="appeal-label">메인 소구포인트</p>
+    <p class="appeal-text">${escapeHtml(val)}</p>
+  </div>`;
+}
+
+function renderMandatoryBanPreview() {
+  const val = document.getElementById('mandatoryBanInput').value.trim();
+  const box = document.getElementById('mandatoryBanPreview');
+  if (!val) { box.innerHTML = ''; return; }
+  box.innerHTML = `<div class="appeal-point-preview danger">
+    <p class="appeal-label">필수 금지 사항</p>
+    <p class="appeal-text">${escapeHtml(val)}</p>
+  </div>`;
+}
+
+document.getElementById('mainAppealInput').addEventListener('input', renderAppealPointPreview);
+document.getElementById('mandatoryBanInput').addEventListener('input', renderMandatoryBanPreview);
+
+document.getElementById('exportBtn').addEventListener('click', async function() {
+  const btn = document.getElementById('exportBtn');
+  const originalBtnText = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = '영상 용량 확인 중...';
+  await recompressAllScenesForExport();
+  render(); // reflect any re-compressed media in the on-screen preview/thumbs too
+  btn.textContent = '파일 생성 중...';
+
+  const title = document.getElementById('guideTitleInput').value || '크리에이터 기획 가이드';
+  const appealVal = document.getElementById('mainAppealInput').value.trim();
+  const appealHtml = appealVal ? `<div class="appeal-point-preview">
+    <p class="appeal-label">메인 소구포인트</p>
+    <p class="appeal-text">${escapeHtml(appealVal)}</p>
+  </div>` : '';
+  const banVal = document.getElementById('mandatoryBanInput').value.trim();
+  const banHtml = banVal ? `<div class="appeal-point-preview danger">
+    <p class="appeal-label">필수 금지 사항</p>
+    <p class="appeal-text">${escapeHtml(banVal)}</p>
+  </div>` : '';
+  const refHtml = referenceGroupHtml(references.filter(r => r.type === 'format'), '포맷 참고 레퍼런스')
+    + referenceGroupHtml(references.filter(r => r.type === 'content'), '내용 참고 레퍼런스');
+  const sceneHtml = scenes.map((s, idx) => `
+    <section class="scene-card">
+      <div class="scene-text">
+        <div class="scene-head">
+          <span class="scene-icon-badge">${idx + 1}</span>
+          <span class="scene-num">SCENE ${idx + 1}</span>
+          <span class="time-chip">${timeRangeLabel(s)}</span>
+        </div>
+        <div class="field">
+          <div class="field-label">[더빙 및 자막]</div>
+          <blockquote class="line">${escapeHtml(s.line)}</blockquote>
+        </div>
+        <div class="field">
+          <div class="field-label">[화면]</div>
+          <p class="field-value required">${escapeHtml(s.requiredContent) || '-'}</p>
+        </div>
+        <div class="field">
+          <div class="field-label label-warning">[주의 사항]</div>
+          <p class="field-value optional">${escapeHtml(s.optionalContent) || '-'}</p>
+        </div>
+      </div>
+      <div class="scene-media-grid ${s.slotCount === 1 ? 'single-slot' : ''}">
+        <div class="scene-image">${mediaSlotPreviewHtml(s.media1)}</div>
+        ${s.slotCount === 2 ? `<div class="scene-image">${mediaSlotPreviewHtml(s.media2)}</div>` : ''}
+      </div>
+    </section>`).join('\n');
+
+  const finalHtml = `<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>${escapeHtml(title)}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FFFFFF; --card-bg: #FFFFFF; --cream: #EAF1FD; --sage: #2B2B2B; --sage-dark: #1F5FE0;
+    --terracotta: #1F5FE0; --text-main: #222222; --text-sub: #8A8A8A; --border: #ECECEC; --mono-chip-bg: #F4F4F4;
+    --required: #E5484D; --optional: #E5484D;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text-main); font-family: 'Noto Sans KR', sans-serif; line-height: 1.6; padding: 24px 16px 64px; }
+  .wrap { max-width: 880px; margin: 0 auto; }
+  header.top { text-align: center; padding: 24px 16px 28px; margin-bottom: 20px; border-bottom: 1px solid var(--border); }
+  h1 { font-family: 'Noto Sans KR', sans-serif; font-size: 22px; font-weight: 900; margin: 0; color: var(--text-main); }
+  .scene-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 20px; padding: 24px; margin-bottom: 18px; display: grid; grid-template-columns: 1fr; gap: 16px; box-shadow: 0 2px 16px rgba(0, 0, 0, 0.05); }
+  @media (min-width: 700px) { .scene-card { grid-template-columns: 1fr 1.4fr; align-items: start; } }
+  .scene-head { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; }
+  .scene-icon-badge { width: 32px; height: 32px; border-radius: 999px; background: var(--cream); color: var(--terracotta); display: flex; align-items: center; justify-content: center; font-family: 'Noto Sans KR', sans-serif; font-size: 14px; font-weight: 900; flex-shrink: 0; }
+  .scene-num { font-family: 'Noto Sans KR', sans-serif; font-weight: 700; font-size: 14px; color: var(--sage-dark); letter-spacing: 0.04em; text-transform: uppercase; }
+  .time-chip { font-family: 'Noto Sans KR', sans-serif; font-size: 12px; font-weight: 500; background: var(--mono-chip-bg); color: var(--text-sub); padding: 3px 10px; border-radius: 999px; }
+  .req-badge { font-size: 11px; font-weight: 700; padding: 2px 10px; border-radius: 999px; color: #fff; }
+  .req-badge.required { background: var(--required); }
+  .req-badge.optional { background: var(--optional); }
+  .field { margin-bottom: 14px; padding-top: 14px; border-top: 1px dashed var(--border); }
+  .field:first-of-type { border-top: none; padding-top: 0; }
+  .field-label { font-family: 'Noto Sans KR', sans-serif; font-size: 12px; font-weight: 700; color: var(--sage-dark); letter-spacing: 0.02em; margin-bottom: 4px; }
+  .field-value { margin: 0; font-size: 14px; font-weight: 500; color: var(--text-main); }
+  .field-value.required { color: var(--text-main); font-weight: 500; }
+  .field-value.optional { color: var(--text-main); font-weight: 700; }
+  .label-warning { color: var(--required) !important; }
+  blockquote.line { margin: 0; padding: 10px 14px; background: var(--cream); border-left: 3px solid var(--terracotta); border-radius: 4px; font-size: 15px; color: var(--text-main); }
+  .scene-media-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .scene-media-grid.single-slot { display: flex; justify-content: center; }
+  .scene-media-grid.single-slot .scene-image { width: 60%; max-width: 260px; }
+  .scene-image img, .scene-image video { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 12px; display: block; background: #000; }
+  .preview-media-placeholder { width: 100%; aspect-ratio: 4 / 5; border: 1px dashed var(--border); border-radius: 12px; display: flex; align-items: center; justify-content: center; text-align: center; color: var(--text-sub); font-size: 12px; }
+  .ref-group { margin-bottom: 4px; }
+  .ref-group-label { font-family: 'Noto Sans KR', sans-serif; font-size: 12px; font-weight: 700; color: var(--sage-dark); letter-spacing: 0.02em; margin: 0 0 8px; }
+  .ref-links { display: flex; gap: 8px; margin: 0 0 22px; }
+  .ref-pill { flex: 1; text-align: center; padding: 16px 0; border-radius: 14px; background: var(--terracotta); color: #fff; text-decoration: none; font-size: 15px; font-weight: 700; letter-spacing: 0.02em; box-shadow: 0 2px 10px rgba(31, 95, 224, 0.25); }
+  .appeal-point-preview { background: var(--cream); border: 1px solid var(--border); border-radius: 20px; padding: 18px 20px; margin-bottom: 20px; box-shadow: 0 2px 14px rgba(0, 0, 0, 0.04); }
+  .appeal-point-preview .appeal-label { font-family: 'Noto Sans KR', sans-serif; font-size: 13px; font-weight: 700; color: var(--sage-dark); margin: 0 0 6px; letter-spacing: 0.02em; }
+  .appeal-point-preview .appeal-text { font-size: 17px; font-weight: 700; color: var(--text-main); margin: 0; }
+  .appeal-point-preview.danger { background: #FDECEC; border-color: #F3C9C9; }
+  .appeal-point-preview.danger .appeal-label { color: var(--required); }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="top"><h1>${escapeHtml(title)}</h1></header>
+    ${appealHtml}
+    ${banHtml}
+    ${refHtml}
+    ${sceneHtml}
+  </div>
+</body>
+</html>`;
+
+  const blob = new Blob([finalHtml], { type: 'text/html' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = (title || 'guide').replace(/[\\/:*?"<>|]/g, '') + '.html';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+
+  btn.disabled = false;
+  btn.textContent = originalBtnText;
+});
+
+const STORAGE_KEY = 'oulu_guide_builder_state_v1';
+const CONTENT_VERSION = 'repair-serum-brief-2026-09-28';
+
+function saveState() {
+  try {
+    const state = {
+      contentVersion: CONTENT_VERSION,
+      title: document.getElementById('guideTitleInput').value,
+      appeal: document.getElementById('mainAppealInput').value,
+      mandatoryBan: document.getElementById('mandatoryBanInput').value,
+      references: references,
+      scenes: scenes,
+      sceneSeq: sceneSeq
+    };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    hideSaveWarning();
+  } catch (e) {
+    showSaveWarning();
+  }
+}
+
+function showSaveWarning() {
+  let el = document.getElementById('saveWarning');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'saveWarning';
+    el.style.cssText = 'position:fixed;bottom:14px;right:14px;background:#D64545;color:#fff;padding:10px 16px;border-radius:8px;font-size:12px;z-index:9999;box-shadow:0 4px 12px rgba(0,0,0,0.2);';
+    document.body.appendChild(el);
+  }
+  el.textContent = '⚠ 자동 저장 용량 초과 — 지금 상태로 "가이드 파일 내보내기"를 눌러 백업해두세요.';
+}
+
+function hideSaveWarning() {
+  const el = document.getElementById('saveWarning');
+  if (el) el.remove();
+}
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return false;
+    const state = JSON.parse(raw);
+    if (state.contentVersion !== CONTENT_VERSION) return false; // stale save from an older brief — don't let it shadow the new prefill
+    if (!state.scenes || !state.scenes.length) return false;
+    document.getElementById('guideTitleInput').value = state.title || '[OULU] 크리에이터 기획 가이드';
+    document.getElementById('mainAppealInput').value = state.appeal || '';
+    document.getElementById('mandatoryBanInput').value = state.mandatoryBan || '';
+    references = state.references || [];
+    scenes = state.scenes || [];
+    sceneSeq = state.sceneSeq || scenes.length;
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+// try restoring a previous session first; only use the sample prefill if nothing was saved
+if (!loadState()) {
+  const prefillScenes = [
+    { startSec: 0,  endSec: 3,  line: "꾸덕한 비판텐 바르기 찝찝하지 않으세요?", requiredContent: "거실, 기저귀대 등에서 비판텐 연고를 클로즈업해 전면 제시", optionalContent: "-" },
+    { startSec: 3,  endSec: 15, line: "아기 키우는 집은 꼭 하나씩 있는 필수템인데, 발림성이 너무 찝찝해요. 꾸덕하고 끈적여서 잠깐 제 손에 닿는 것도 싫은데, 특히나 열까지 많은 아이라면... 말은 못해도 얼마나 갑갑하고 불편할까요?", requiredContent: "연고 특유의 빽빽하고 하얗게 밀리는 제형감을 손끝으로 연출\n바르는 느낌이 답답해 아기가 인상을 찌푸리며 거부하는 리얼 컷\n아기 피부에 먼지, 머리카락 등이 들러붙는 컷", optionalContent: "-" },
+    { startSec: 3,  endSec: 15, line: "비판텐에 있는 판테놀이 피부 보호막을 만들어준다고 해서 썼는데, 너무 꾸덕한 제형이 열배출이 안되서 오히려 안좋아질 수 있다고 하더라고요.", requiredContent: "아기 피부에 크림을 발라주는 모습\n직접 등장하여 문제점을 설명해주는 모습", optionalContent: "위 씬과 대체 가능한 스크립트 옵션" },
+    { startSec: 21, endSec: 35, line: "저희 둘째도 환절기여서 그런지 오돌토돌하게 올라와서 정말 열심히 찾았어요. 비판텐과 동일한 독일산 덱스판테놀 5%로 진정 효과는 뛰어난데, 가볍고 시원한 세럼 제형으로요. 효과는 좋은데 발림성도 좋아요.", requiredContent: "아기 피부 고민 이미지 컷\n세럼의 발림성을 보여주는 장면 (손등, 아기 피부 등 도포하는 모습)", optionalContent: "-" },
+    { startSec: 35, endSec: 40, line: "이렇게 심했는데, 이틀만에 싹 가라앉았고, 지금도 침독하나 없이 꿀피부 유지하고 있어요.", requiredContent: "제품 사용 후 달라진 피부, 강력한 B&A 이미지", optionalContent: "-" },
+    { startSec: 40, endSec: 45, line: "댓글 남겨주시면, 제품 정보랑 아기 피부 관리법 자료로 보내드릴께요! 궁금하다면 \"정보\" 댓글 주세요", requiredContent: "깨끗하게 개선된 아이 피부 등 자유롭게 영상 연출 마감", optionalContent: "-" }
+  ];
+
+  prefillScenes.forEach(function(p) {
+    const s = newScene();
+    s.startSec = p.startSec;
+    s.endSec = p.endSec;
+    s.line = p.line;
+    s.requiredContent = p.requiredContent;
+    s.optionalContent = p.optionalContent;
+    scenes.push(s);
+  });
+
+  references = [];
+
+  document.getElementById('mainAppealInput').value = "태열, 땀띠 등 열감 증상엔 이 세럼 하나면 충분해요 (독일산 덱스판테놀 5% + 세.콜.지 성분)";
+}
+
+render();
+renderAppealPointPreview();
+renderMandatoryBanPreview();
+
+// auto-save periodically and right before the page closes, so entered content survives a refresh/close
+setInterval(saveState, 2000);
+window.addEventListener('beforeunload', saveState);
+document.getElementById('guideTitleInput').addEventListener('input', saveState);
+document.getElementById('mainAppealInput').addEventListener('input', saveState);
+document.getElementById('mandatoryBanInput').addEventListener('input', saveState);
+</script>
+</body>
+</html>
